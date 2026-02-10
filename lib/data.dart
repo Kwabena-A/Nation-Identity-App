@@ -29,7 +29,7 @@ PageInfo masdarCity = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFF3FAE6B),
+  colorTheme: Color(0xFFB4532A),
 );
 
 // 2. DUBAI
@@ -58,17 +58,17 @@ PageInfo burjKhalifa = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFFD4AF37),
+  colorTheme: Color(0xFF1E5FA3),
 );
 
 // 3. SHARJAH
 PageInfo houseOfWisdom = PageInfo(
   title: "House of Wisdom",
   description: "The Floating Oasis of Knowledge",
-  image: "assets/house-of-wisdom.jpeg",
+  image: "assets/house-of-wisdom.png",
   textSections: [
     TextSection(
-      title: "Architecture of Transparency",
+      title: "Transparencies Architect",
       subTitle: "Futurist Design",
       texts: [
         """This building features a massive 'floating' roof and total glass walls that blur the line between inside and out.""",
@@ -86,7 +86,7 @@ PageInfo houseOfWisdom = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFF5F7C8A),
+  colorTheme: Color(0xFF0F766E),
 );
 
 // 4. FUJAIRAH
@@ -94,7 +94,7 @@ PageInfo alBithnahFort = PageInfo(
   title: "Al-Bithnah Fort",
   description: "The Golden Shield: Protector of the East",
   imageAlignment: Alignment(0.3, 0),
-  image: "assets/Al-Bithnah-Fort.jpg",
+  image: "assets/Al-Bithnah-Fort.png",
   textSections: [
     TextSection(
       title: "The Valley Sentinel",
@@ -115,7 +115,7 @@ PageInfo alBithnahFort = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFF6B3E2E),
+  colorTheme: Color(0xFF8F6B2E),
 );
 
 // 5. RAS AL KHAIMAH
@@ -124,7 +124,7 @@ PageInfo jebelJais = PageInfo(
   titleColor: Colors.white,
   description: "The Peak of Excellence: The UAE's Highest Point",
   imageAlignment: Alignment(0.6, 0),
-  image: "assets/Jebel-Jais.jpeg",
+  image: "assets/Jebal-Jais.png",
   textSections: [
     TextSection(
       title: "The Mountain Ribbon",
@@ -145,15 +145,16 @@ PageInfo jebelJais = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFF8C4A2F),
+  colorTheme: Color(0xFF2C3A8C),
 );
 
 // 6. AJMAN
 PageInfo alZorahPavilion = PageInfo(
   title: "Al Zorah Pavilion",
+  titleColor: Colors.white,
   description: "The Origami Wave: Minimalism in Nature",
   imageAlignment: Alignment(0.6, 0),
-  image: "assets/Al-Zorah-Pavilion.jpg",
+  image: "assets/Al-Zorah-Pavilion.png",
   textSections: [
     TextSection(
       title: "Modern Geometry",
@@ -174,7 +175,7 @@ PageInfo alZorahPavilion = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFF4A4F55),
+  colorTheme: Color(0xFF1F8A70),
 );
 
 // 7. UMM AL QUWAIN
@@ -202,7 +203,7 @@ PageInfo abandonedPlane = PageInfo(
       ],
     ),
   ],
-  colorTheme: Color(0xFF2C333A),
+  colorTheme: Color(0xFFA34724),
 );
 List<PageInfo> allPages = [
   masdarCity,

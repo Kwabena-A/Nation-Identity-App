@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +25,11 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
   late AnimationController _imageAnimationController;
   late Animation _imageAnimation;
 
+  late AnimationController _textTransformAnimationController;
+  late Animation _textTransformAnimation;
+
+  late Listenable _animationControllers;
+
   final ScrollController _scrollController = ScrollController();
 
   late int index;
@@ -44,6 +52,17 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
           ),
         );
 
+    _textTransformAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    _textTransformAnimation = Tween(begin: 100.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _textTransformAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
     _imageAnimationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 20),
@@ -55,21 +74,37 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
       ),
     );
 
-    _movementAnimationController.addListener(() {
+    _animationControllers = Listenable.merge([
+      _movementAnimationController,
+      _imageAnimationController,
+      _textTransformAnimationController,
+    ]);
+
+    currentPage.addListener(() {
       if (index == currentPage.value) {
         if (!_imageAnimationController.status.isForwardOrCompleted) {
           _imageAnimationController.duration = Duration(seconds: 20);
           _imageAnimationController.forward();
         }
+
+        if (!_textTransformAnimationController.status.isForwardOrCompleted) {
+          _textTransformAnimationController.forward();
+        }
       } else {
-        if (!_imageAnimationController.status.isCompleted &&
+        if (!_imageAnimationController.status.isDismissed &&
             _imageAnimationController.status != AnimationStatus.reverse) {
           _imageAnimationController.duration = Duration(seconds: 3);
           _imageAnimationController.reverse();
         }
+
+        if (!_textTransformAnimationController.status.isDismissed &&
+            _textTransformAnimationController.status !=
+                AnimationStatus.reverse) {
+          print('');
+          _textTransformAnimationController.reverse();
+        }
       }
     });
-    _movementAnimationController.notifyListeners();
 
     currentPage.addListener(_movePage);
     currentPage.addListener(() {
@@ -77,7 +112,9 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
         activeScrollController = _scrollController;
       }
     });
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      currentPage.notifyListeners();
+    });
     super.initState();
   }
 
@@ -86,7 +123,7 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
       activeScrollController = _scrollController;
       animate(0);
     } else {
-      animate((index > currentPage.value ? 1 : 0));
+      animate((index > currentPage.value ? 1.2 : 0));
     }
   }
 
@@ -118,123 +155,152 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
   Widget build(BuildContext context) {
     int titleAlpha = 220;
     return AnimatedBuilder(
-      animation: _movementAnimationController,
+      animation: _animationControllers,
       builder: (context, child) {
         return Transform.translate(
           offset: Offset(_movementAnimation.value, 0),
-          child: Stack(
-            children: [
-              AnimatedBuilder(
-                animation: _imageAnimationController,
-                builder: (context, child) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    width: MediaQuery.of(context).size.width,
-                    child: ClipRect(
-                      clipBehavior: Clip.hardEdge,
-                      child: Transform.scale(
-                        scale: _imageAnimation.value,
-                        child: Image.asset(
-                          widget.pageInfo.image,
-                          alignment: (widget.pageInfo.imageAlignment != null)
-                              ? widget.pageInfo.imageAlignment!
-                              : Alignment.center,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x59000000),
+                  offset: Offset(-5, 0),
+                  blurRadius: 30,
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: ClipRect(
+                    clipBehavior: Clip.hardEdge,
+                    child: Transform.scale(
+                      scale: _imageAnimation.value,
+                      child: Image.asset(
+                        widget.pageInfo.image,
+                        alignment: (widget.pageInfo.imageAlignment != null)
+                            ? widget.pageInfo.imageAlignment!
+                            : Alignment.center,
 
-                          fit: BoxFit.cover,
-                        ),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
 
-              Container(
-                margin: EdgeInsets.only(top: 30, right: 20),
-                alignment: Alignment.topRight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.string(
-                      KIcons.quoteIcon,
-                      height: 50,
-                      width: 50,
-                      color: (widget.pageInfo.titleColor != null)
-                          ? widget.pageInfo.titleColor!.withAlpha(titleAlpha)
-                          : Colors.black.withAlpha(titleAlpha),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: 250,
-                          alignment: Alignment.centerRight,
-                          child: FittedBox(
-                            child: Text(
-                              widget.pageInfo.title,
-                              textAlign: TextAlign.right,
-                              style: GoogleFonts.getFont(
-                                color: (widget.pageInfo.titleColor != null)
-                                    ? widget.pageInfo.titleColor!.withAlpha(
-                                        titleAlpha,
-                                      )
-                                    : Colors.black.withAlpha(titleAlpha),
-                                "Bodoni Moda",
-                                fontSize: 50,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2,
+                Container(
+                  margin: EdgeInsets.only(left: 50, top: 50, right: 20),
+                  alignment: Alignment.topRight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Transform.translate(
+                        offset: Offset(0, _textTransformAnimation.value * -0.3),
+                        child: SvgPicture.string(
+                          KIcons.quoteIcon,
+                          height: 30,
+                          width: 30,
+                          color: (widget.pageInfo.titleColor != null)
+                              ? widget.pageInfo.titleColor!.withAlpha(
+                                  titleAlpha,
+                                )
+                              : Colors.black.withAlpha(titleAlpha),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Transform.translate(
+                            offset: Offset(_textTransformAnimation.value, 0),
+                            child: Container(
+                              width: 250,
+                              alignment: Alignment.centerRight,
+                              child: FittedBox(
+                                child: Text(
+                                  widget.pageInfo.title,
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.getFont(
+                                    color: (widget.pageInfo.titleColor != null)
+                                        ? widget.pageInfo.titleColor!.withAlpha(
+                                            titleAlpha,
+                                          )
+                                        : Colors.black.withAlpha(titleAlpha),
+                                    "Bodoni Moda",
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.2,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: 350,
-                          child: Text(
-                            widget.pageInfo.description,
-                            textAlign: TextAlign.right,
-                            style: GoogleFonts.getFont(
-                              color: (widget.pageInfo.titleColor != null)
-                                  ? widget.pageInfo.titleColor!.withAlpha(
-                                      titleAlpha,
-                                    )
-                                  : Colors.black.withAlpha(titleAlpha),
-                              "Sora",
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                          Transform.translate(
+                            offset: Offset(
+                              _textTransformAnimation.value * 0.9,
+                              0,
+                            ),
+                            child: Container(
+                              width: 350,
+                              child: Text(
+                                widget.pageInfo.description,
+                                textAlign: TextAlign.right,
+                                style: GoogleFonts.getFont(
+                                  color: (widget.pageInfo.titleColor != null)
+                                      ? widget.pageInfo.titleColor!.withAlpha(
+                                          titleAlpha,
+                                        )
+                                      : Colors.black.withAlpha(titleAlpha),
+                                  "Sora",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              SingleChildScrollView(
-                controller: _scrollController,
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.75,
-                ),
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(top: 40),
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      ...List.generate(widget.pageInfo.textSections.length, (
-                        index,
-                      ) {
-                        return TextSectionWidget(
-                          textSection: widget.pageInfo.textSections.elementAt(
-                            index,
-                          ),
-                          colorTheme: widget.pageInfo.colorTheme,
-                        );
-                      }),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ],
+
+                NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overscroll) {
+                    overscroll.disallowIndicator();
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.75,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(top: 40),
+                      color: Colors.white.withAlpha(240),
+                      child: Column(
+                        children: [
+                          ...List.generate(
+                            widget.pageInfo.textSections.length,
+                            (index) {
+                              return TextSectionWidget(
+                                textSection: widget.pageInfo.textSections
+                                    .elementAt(index),
+                                colorTheme: widget.pageInfo.colorTheme,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

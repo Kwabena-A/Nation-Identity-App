@@ -165,6 +165,7 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
                     child: ClipRect(
                       clipBehavior: Clip.hardEdge,
                       child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width,
                         ),
