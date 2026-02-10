@@ -15,10 +15,15 @@ class PageHolderWidget extends StatefulWidget {
 }
 
 class _PageHolderWidgetState extends State<PageHolderWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+    with TickerProviderStateMixin {
+  late AnimationController _movementAnimationController;
+  late Animation _movementAnimation;
+
+  late AnimationController _imageAnimationController;
+  late Animation _imageAnimation;
+
   final ScrollController _scrollController = ScrollController();
-  late Animation _animation;
+
   late int index;
 
   @override
@@ -27,13 +32,44 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
     if (index == currentPage.value) {
       activeScrollController = _scrollController;
     }
-    _animationController = AnimationController(
+    _movementAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 600),
     );
-    _animation = Tween(begin: (index == 0) ? 0.0 : 500.0, end: 0.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    _movementAnimation = Tween(begin: (index == 0) ? 0.0 : 500.0, end: 0.0)
+        .animate(
+          CurvedAnimation(
+            parent: _movementAnimationController,
+            curve: Curves.easeInOut,
+          ),
+        );
+
+    _imageAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 20),
     );
+    _imageAnimation = Tween(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(
+        parent: _imageAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _movementAnimationController.addListener(() {
+      if (index == currentPage.value) {
+        if (!_imageAnimationController.status.isForwardOrCompleted) {
+          _imageAnimationController.duration = Duration(seconds: 20);
+          _imageAnimationController.forward();
+        }
+      } else {
+        if (!_imageAnimationController.status.isCompleted &&
+            _imageAnimationController.status != AnimationStatus.reverse) {
+          _imageAnimationController.duration = Duration(seconds: 3);
+          _imageAnimationController.reverse();
+        }
+      }
+    });
+    _movementAnimationController.notifyListeners();
 
     currentPage.addListener(_movePage);
     currentPage.addListener(() {
@@ -56,49 +92,60 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _movementAnimationController.dispose();
     _scrollController.dispose();
     super.dispose();
     currentPage.removeListener(_movePage);
   }
 
   void animate(double animateTo) {
-    _animation =
+    _movementAnimation =
         Tween(
-          begin: _animation.value,
+          begin: _movementAnimation.value,
           end: MediaQuery.of(context).size.width * (animateTo),
         ).animate(
           CurvedAnimation(
-            parent: _animationController,
+            parent: _movementAnimationController,
             curve: Curves.easeInOut,
           ),
         );
 
-    _animationController.reset();
-    _animationController.forward();
+    _movementAnimationController.reset();
+    _movementAnimationController.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     int titleAlpha = 220;
     return AnimatedBuilder(
-      animation: _animationController,
+      animation: _movementAnimationController,
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(_animation.value, 0),
+          offset: Offset(_movementAnimation.value, 0),
           child: Stack(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  widget.pageInfo.image,
-                  alignment: (widget.pageInfo.imageAlignment != null)
-                      ? widget.pageInfo.imageAlignment!
-                      : Alignment.center,
+              AnimatedBuilder(
+                animation: _imageAnimationController,
+                builder: (context, child) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    width: MediaQuery.of(context).size.width,
+                    child: ClipRect(
+                      clipBehavior: Clip.hardEdge,
+                      child: Transform.scale(
+                        scale: _imageAnimation.value,
+                        child: Image.asset(
+                          widget.pageInfo.image,
+                          alignment: (widget.pageInfo.imageAlignment != null)
+                              ? widget.pageInfo.imageAlignment!
+                              : Alignment.center,
 
-                  fit: BoxFit.cover,
-                ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
 
               Container(
