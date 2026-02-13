@@ -3,11 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nation_identity_application/data.dart';
 
 class TextSectionWidget extends StatelessWidget {
-  final TextSection textSection;
   final Color colorTheme;
+  final String title;
+  final String subTitle;
+  final List<String> texts;
+
   const TextSectionWidget({
     super.key,
-    required this.textSection,
+    required this.title,
+    required this.subTitle,
+    required this.texts,
     required this.colorTheme,
   });
 
@@ -50,7 +55,7 @@ class TextSectionWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    textSection.title,
+                    title,
                     style: GoogleFonts.getFont(
                       "Bebas Neue",
                       color: Color(colorTheme.value),
@@ -60,10 +65,7 @@ class TextSectionWidget extends StatelessWidget {
                   ),
                   Transform.translate(
                     offset: Offset(0, -5),
-                    child: Text(
-                      textSection.subTitle,
-                      style: TextStyle(height: 0),
-                    ),
+                    child: Text(subTitle, style: TextStyle(height: 0)),
                   ),
                 ],
               ),
@@ -77,7 +79,7 @@ class TextSectionWidget extends StatelessWidget {
             color: Color(0xFFDBDBDB),
           ),
 
-          ...List.generate(textSection.texts.length, (index) {
+          ...List.generate(texts.length, (index) {
             return Row(
               children: [
                 Container(
@@ -92,7 +94,7 @@ class TextSectionWidget extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 2.5),
                   width: MediaQuery.of(context).size.width * 0.75,
-                  child: Text(textSection.texts.elementAt(index)),
+                  child: Text(texts.elementAt(index)),
                 ),
               ],
             );

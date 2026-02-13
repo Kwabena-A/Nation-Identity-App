@@ -123,7 +123,7 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
       activeScrollController = _scrollController;
       animate(0);
     } else {
-      animate((index > currentPage.value ? 1.2 : 0));
+      animate((index > currentPage.value ? 1.2 : -0.2));
     }
   }
 
@@ -287,10 +287,8 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
                           ...List.generate(
                             widget.pageInfo.textSections.length,
                             (index) {
-                              return TextSectionWidget(
-                                textSection: widget.pageInfo.textSections
-                                    .elementAt(index),
-                                colorTheme: widget.pageInfo.colorTheme,
+                              return widget.pageInfo.textSections.elementAt(
+                                index,
                               );
                             },
                           ),

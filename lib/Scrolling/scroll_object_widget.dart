@@ -39,7 +39,8 @@ class _ScrollObjectWidgetState extends State<ScrollObjectWidget>
   }
 
   double currentScaleFactor(int currentPage) {
-    return -((currentPage - widget.index).abs() / 7.5) + 1;
+    double equationFactor = -((currentPage - widget.index).abs() / 7.5) + 1;
+    return (equationFactor > 0) ? equationFactor : 0.01;
   }
 
   @override

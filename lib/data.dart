@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nation_identity_application/Pages/QuestionSectionWidget.dart';
+import 'package:nation_identity_application/Pages/TextSectionWidget.dart';
 
 ValueNotifier<int> currentPage = ValueNotifier(0);
 
@@ -10,7 +12,7 @@ PageInfo masdarCity = PageInfo(
   description: "The Sustainable City: A Glimpse into the Future",
   image: "assets/Masdar-City.jpg",
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "The Wind Tower",
       subTitle: "Blending Tradition with Tech",
       texts: [
@@ -18,14 +20,15 @@ PageInfo masdarCity = PageInfo(
         """The architecture looks like a city from a sci-fi movie, but the design is based on ancient Arab cooling techniques.""",
         """It demonstrates how old-school wisdom can be redesigned with a futuristic aesthetic.""",
       ],
+      colorTheme: Color(0xFFB4532A),
     ),
-    TextSection(
-      title: "Eco-Leadership",
-      subTitle: "A Global Green Leader",
-      texts: [
-        """Culturally, Masdar City represents the UAE’s leadership in global sustainability.""",
-        """It proves that while the nation grew because of oil, it is now a pioneer in renewable energy.""",
-        """This fulfills Sheikh Zayed’s vision to protect the land for future generations.""",
+    QuestionSectionWidget(
+      questions: [
+        Question(
+          question: "How big is masdar city",
+          options: ["200km", "100km", "310km"],
+          correctChoice: 2,
+        ),
       ],
     ),
   ],
@@ -39,7 +42,7 @@ PageInfo burjKhalifa = PageInfo(
   image: "assets/burj-khalifa.jpg",
   imageAlignment: Alignment(1, 0),
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "The Silver Needle",
       subTitle: "Inspired by the Desert Bloom",
       texts: [
@@ -47,8 +50,9 @@ PageInfo burjKhalifa = PageInfo(
         """Its reflective silver skin changes color depending on the sun's position, making it a perfect visual icon.""",
         """The geometry is a masterclass in how nature influences modern engineering and high-tech design.""",
       ],
+      colorTheme: Color(0xFF0F766E),
     ),
-    TextSection(
+    TextSectionWidget(
       title: "Unlimited Vision",
       subTitle: "The Spirit of the Possible",
       texts: [
@@ -56,6 +60,7 @@ PageInfo burjKhalifa = PageInfo(
         """It represents the rapid transformation of a small coastal town into a leading global hub.""",
         """This landmark teaches that the UAE’s identity is built on dreaming big and having the courage to achieve it.""",
       ],
+      colorTheme: Color(0xFF0F766E),
     ),
   ],
   colorTheme: Color(0xFF1E5FA3),
@@ -67,7 +72,7 @@ PageInfo houseOfWisdom = PageInfo(
   description: "The Floating Oasis of Knowledge",
   image: "assets/house-of-wisdom.png",
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "Transparencies Architect",
       subTitle: "Futurist Design",
       texts: [
@@ -75,8 +80,9 @@ PageInfo houseOfWisdom = PageInfo(
         """Outside, 'The Scroll' sculpture spirals into the sky, creating a high-tech sanctuary for visitors.""",
         """The aesthetic makes it one of the most visually stunning cultural spots for a digital app interface.""",
       ],
+      colorTheme: Color(0xFF0F766E),
     ),
-    TextSection(
+    TextSectionWidget(
       title: "The Intellectual Hub",
       subTitle: "A Sanctuary for Knowledge",
       texts: [
@@ -84,6 +90,7 @@ PageInfo houseOfWisdom = PageInfo(
         """By combining a library with maker-spaces and labs, it shows that the UAE values knowledge as its true wealth.""",
         """This connects to the national value of education as a bridge between a glorious past and a bright future.""",
       ],
+      colorTheme: Color(0xFF0F766E),
     ),
   ],
   colorTheme: Color(0xFF0F766E),
@@ -96,7 +103,7 @@ PageInfo alBithnahFort = PageInfo(
   imageAlignment: Alignment(0.3, 0),
   image: "assets/Al-Bithnah-Fort.png",
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "The Valley Sentinel",
       subTitle: "A Natural Stronghold",
       texts: [
@@ -104,8 +111,9 @@ PageInfo alBithnahFort = PageInfo(
         """The contrast between the sand-colored stone and the dark mountain rock is visually dramatic.""",
         """It provides the app with a 'heritage-cool' vibe that is both ancient and visually powerful.""",
       ],
+      colorTheme: Color(0xFF8F6B2E),
     ),
-    TextSection(
+    TextSectionWidget(
       title: "Historical Resilience",
       subTitle: "The Guardian of the Valley",
       texts: [
@@ -113,6 +121,7 @@ PageInfo alBithnahFort = PageInfo(
         """It represents the resilience and bravery of the mountain people throughout history.""",
         """It stands as a symbol of the National Identity value of 'Summoud' (steadfastness).""",
       ],
+      colorTheme: Color(0xFF8F6B2E),
     ),
   ],
   colorTheme: Color(0xFF8F6B2E),
@@ -126,7 +135,7 @@ PageInfo jebelJais = PageInfo(
   imageAlignment: Alignment(0.6, 0),
   image: "assets/Jebal-Jais.png",
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "The Mountain Ribbon",
       subTitle: "Nature’s Masterpiece",
       texts: [
@@ -134,8 +143,9 @@ PageInfo jebelJais = PageInfo(
         """It offers a rugged, earthy aesthetic that stands out from the shiny glass cityscapes.""",
         """It represents the raw, natural beauty of the UAE’s northern geography.""",
       ],
+      colorTheme: Color(0xFF2C3A8C),
     ),
-    TextSection(
+    TextSectionWidget(
       title: "The Stature of a Nation",
       subTitle: "The Strength of the People",
       texts: [
@@ -143,6 +153,7 @@ PageInfo jebelJais = PageInfo(
         """Just as the mountain stands firm, the UAE stands firm in its cultural values.""",
         """It symbolizes the heights the nation aims to reach, connecting landscape to national goals.""",
       ],
+      colorTheme: Color(0xFF2C3A8C),
     ),
   ],
   colorTheme: Color(0xFF2C3A8C),
@@ -156,7 +167,7 @@ PageInfo alZorahPavilion = PageInfo(
   imageAlignment: Alignment(0.6, 0),
   image: "assets/Al-Zorah-Pavilion.png",
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "Modern Geometry",
       subTitle: "Geometric Elegance",
       texts: [
@@ -164,8 +175,9 @@ PageInfo alZorahPavilion = PageInfo(
         """Its sharp angles and minimalist white exterior make it a visually 'cool' modern structure.""",
         """The clean design provides a professional and high-tech look for the application's UI.""",
       ],
+      colorTheme: Color(0xFF1F8A70),
     ),
-    TextSection(
+    TextSectionWidget(
       title: "Ecological Connection",
       subTitle: "Respect for the Land",
       texts: [
@@ -173,6 +185,7 @@ PageInfo alZorahPavilion = PageInfo(
         """Culturally, it represents the UAE’s 'Natural Identity' and the importance of coastal preservation.""",
         """It shows that modern architecture and nature can exist in perfect harmony.""",
       ],
+      colorTheme: Color(0xFF1F8A70),
     ),
   ],
   colorTheme: Color(0xFF1F8A70),
@@ -184,7 +197,7 @@ PageInfo abandonedPlane = PageInfo(
   description: "The Desert Giant: A Mystery Frozen in Time",
   image: "assets/abandoned-plane.png",
   textSections: [
-    TextSection(
+    TextSectionWidget(
       title: "The Metallic Relic",
       subTitle: "Industrial Aesthetics",
       texts: [
@@ -192,8 +205,9 @@ PageInfo abandonedPlane = PageInfo(
         """Its rusted metallic skin and giant wings sitting in the orange sand create a unique 'mystery' vibe.""",
         """This visual is perfect for an app because it feels like a hidden secret of the desert.""",
       ],
+      colorTheme: Color(0xFFA34724),
     ),
-    TextSection(
+    TextSectionWidget(
       title: "The Crossroads of Trade",
       subTitle: "The Legacy of Connection",
       texts: [
@@ -201,6 +215,7 @@ PageInfo abandonedPlane = PageInfo(
         """It reminds us of how the UAE opened its doors to the world to build its modern economy.""",
         """It symbolizes the nation's journey of discovery and its welcoming attitude toward cooperation.""",
       ],
+      colorTheme: Color(0xFFA34724),
     ),
   ],
   colorTheme: Color(0xFFA34724),
@@ -222,7 +237,7 @@ class PageInfo {
   final String image;
   late final Alignment? imageAlignment;
 
-  final List<TextSection> textSections;
+  final List<Widget> textSections;
   final Color colorTheme;
 
   PageInfo({
@@ -245,5 +260,17 @@ class TextSection {
     required this.title,
     required this.subTitle,
     required this.texts,
+  });
+}
+
+class Question {
+  final String question;
+  final List<String> options;
+  final int correctChoice;
+
+  Question({
+    required this.question,
+    required this.options,
+    required this.correctChoice,
   });
 }
