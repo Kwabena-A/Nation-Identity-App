@@ -25,11 +25,35 @@ PageInfo masdarCity = PageInfo(
     QuestionSectionWidget(
       questions: [
         Question(
-          question: "How big is masdar city",
-          options: ["200km", "100km", "310km"],
+          question: "What is the primary goal of Masdar City?",
+          options: [
+            "Tourism development",
+            "Sustainable urban living",
+            "Oil production expansion",
+          ],
+          correctChoice: 1,
+        ),
+        Question(
+          question: "Which energy source is heavily utilized in Masdar City?",
+          options: ["Coal power", "Solar energy", "Diesel generators"],
+          correctChoice: 1,
+        ),
+        Question(
+          question: "Near which major city is Masdar City situated?",
+          options: ["Dubai", "Abu Dhabi", "Sharjah"],
+          correctChoice: 1,
+        ),
+        Question(
+          question: "Which initiative is Masdar City known for promoting?",
+          options: [
+            "High-carbon industries",
+            "Traditional fuel dependency",
+            "Carbon neutrality efforts",
+          ],
           correctChoice: 2,
         ),
       ],
+      colorTheme: Color(0xFFE2612F),
     ),
   ],
   colorTheme: Color(0xFFB4532A),
@@ -220,6 +244,7 @@ PageInfo abandonedPlane = PageInfo(
   ],
   colorTheme: Color(0xFFA34724),
 );
+
 List<PageInfo> allPages = [
   masdarCity,
   burjKhalifa,
