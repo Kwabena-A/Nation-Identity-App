@@ -280,7 +280,7 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
                     ),
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.only(top: 40),
+                      padding: EdgeInsets.only(top: 60),
                       color: Colors.white.withAlpha(240),
                       child: Column(
                         children: [
