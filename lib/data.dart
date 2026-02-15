@@ -292,6 +292,7 @@ class Question {
   final String question;
   final List<String> options;
   final int correctChoice;
+  bool? isCorrect;
 
   Question({
     required this.question,
