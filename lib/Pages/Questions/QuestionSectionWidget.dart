@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nation_identity_application/Pages/Questions/answer_option_widget.dart';
+import 'package:nation_identity_application/Pages/Questions/completion_info_widget.dart';
+import 'package:nation_identity_application/Pages/Questions/indicator_text_widget.dart';
 import 'package:nation_identity_application/Pages/card_holder.dart';
 import 'package:nation_identity_application/data.dart';
 import 'dart:math';
@@ -44,17 +47,24 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
             valueListenable: _currentQuestionIndex,
             builder: (context, value, child) {
               return AnimatedSwitcher(
-                duration: Duration(milliseconds: 500),
+                duration: Duration(milliseconds: 1000),
+                switchInCurve: Curves.easeInOut,
+                switchOutCurve: Curves.easeInOut,
                 transitionBuilder: (child, animation) {
+                  if (animation.isCompleted) {
+                    animation.addListener(() {
+                      print("Updating");
+                      activeScrollController.animateTo(
+                        activeScrollController.position.extentTotal,
+                        duration: Duration(milliseconds: 1000),
+                        curve: Curves.linear,
+                      );
+                    });
+                  }
+
                   return SizeTransition(
                     sizeFactor: animation,
-                    child: FadeTransition(
-                      opacity: CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeInOut,
-                      ),
-                      child: child,
-                    ),
+                    child: FadeTransition(opacity: animation, child: child),
                   );
                 },
                 child: (_currentQuestionIndex.value < widget.questions.length)
@@ -141,68 +151,17 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
                               ...List.generate(currentQuestion.options.length, (
                                 index,
                               ) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    _selected.value = (_selected.value == index)
-                                        ? null
-                                        : index;
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: BoxBorder.all(
-                                        color: Color(0x22000000),
-                                      ),
-                                    ),
-                                    width: double.infinity,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          currentQuestion.options.elementAt(
-                                            index,
-                                          ),
-                                        ),
-                                        Expanded(child: Container()),
-                                        AnimatedSwitcher(
-                                          transitionBuilder:
-                                              (child, animation) =>
-                                                  FadeTransition(
-                                                    opacity:
-                                                        (child.key ==
-                                                            ValueKey("Checked"))
-                                                        ? Tween<double>(
-                                                            begin: 0.5,
-                                                            end: 1.0,
-                                                          ).animate(animation)
-                                                        : Tween<double>(
-                                                            begin: 1.0,
-                                                            end: 0.5,
-                                                          ).animate(animation),
-                                                    child: child,
-                                                  ),
-                                          duration: Duration(milliseconds: 50),
-                                          child: (_selected.value == index)
-                                              ? Icon(
-                                                  Icons.check_box,
-                                                  key: ValueKey("Checked"),
-                                                  size: 20,
-                                                  color: widget.colorTheme,
-                                                )
-                                              : Icon(
-                                                  key: ValueKey("Unchecked"),
-                                                  Icons.check_box_outline_blank,
-                                                  size: 20,
-                                                  color: Color(0x3C000000),
-                                                ),
-                                        ),
-                                      ],
-                                    ),
+                                return AnswerOptionWidget(
+                                  index: index,
+                                  selected: _selected,
+                                  color: widget.colorTheme,
+                                  text: currentQuestion.options.elementAt(
+                                    index,
                                   ),
                                 );
                               }),
 
+                              // Submit
                               GestureDetector(
                                 onTap: () {
                                   if (_selected.value != null) {
@@ -220,14 +179,13 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
                                       activeScrollController
                                           .position
                                           .extentTotal,
-                                      duration: Duration(milliseconds: 300),
+                                      duration: Duration(milliseconds: 750),
                                       curve: Curves.easeInOut,
                                     );
                                     setState(() {});
                                   }
                                 },
                                 child: Container(
-                                  // Submit
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     border: BoxBorder.all(
@@ -254,34 +212,10 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
                           );
                         },
                       )
-                    : Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${(score / widget.questions.length * 100).round()}%",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.getFont(
-                                  "Bebas Neue",
-                                  fontSize: 60,
-                                  height: 0,
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 3.0),
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Color(0xFF000000),
-                                  strokeWidth: 5,
-                                  value: score / widget.questions.length,
-                                  color: widget.colorTheme,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                    : CompletionInfoWidget(
+                        score: score,
+                        length: widget.questions.length,
+                        color: widget.colorTheme,
                       ),
               );
             },
@@ -289,34 +223,7 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
         ),
         ...List.generate(widget.questions.length, (index) {
           Question currentQuestion = widget.questions.elementAt(index);
-          return (currentQuestion.isCorrect != null)
-              ? CardHolder(
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            currentQuestion.question,
-                            softWrap: true,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        Icon(
-                          (currentQuestion.isCorrect == true)
-                              ? Icons.check
-                              : Icons.close,
-                          color: (currentQuestion.isCorrect == true)
-                              ? Colors.green
-                              : Colors.red,
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : Container();
+          return IndicatorTextWidget(currentQuestion: currentQuestion);
         }),
       ],
     );

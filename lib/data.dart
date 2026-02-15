@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nation_identity_application/Pages/QuestionSectionWidget.dart';
+import 'package:nation_identity_application/Pages/Questions/QuestionSectionWidget.dart';
 import 'package:nation_identity_application/Pages/TextSectionWidget.dart';
 
 ValueNotifier<int> currentPage = ValueNotifier(0);
@@ -53,7 +53,7 @@ PageInfo masdarCity = PageInfo(
           correctChoice: 1,
         ),
       ],
-      colorTheme: Color(0xFFE2612F),
+      colorTheme: Color(0xFFB4532A),
     ),
   ],
   colorTheme: Color(0xFFB4532A),
@@ -93,10 +93,10 @@ PageInfo burjKhalifa = PageInfo(
           correctChoice: 1,
         ),
       ],
-      colorTheme: Color(0xFF1E5FA3),
+      colorTheme: Color(0xFF0F766E),
     ),
   ],
-  colorTheme: Color(0xFF1E5FA3),
+  colorTheme: Color(0xFF0F766E),
 );
 
 // 3. RAS AL KHAIMAH
