@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nation_identity_application/data.dart';
 
-class QuestionSectionWidget extends StatelessWidget {
+class QuestionSectionWidget extends StatefulWidget {
   final List<Question> questions;
   final Color colorTheme;
   QuestionSectionWidget({
@@ -11,17 +11,32 @@ class QuestionSectionWidget extends StatelessWidget {
     required this.colorTheme,
   });
 
+  @override
+  State<QuestionSectionWidget> createState() => _QuestionSectionWidgetState();
+}
+
+class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
+    with SingleTickerProviderStateMixin {
   final ValueNotifier<int> _currentQuestionIndex = ValueNotifier(0);
+
   final ValueNotifier<int?> _selected = ValueNotifier(null);
+
   int score = 0;
+
+  @override
+  void initState() {
+
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: _currentQuestionIndex,
       builder: (context, value, child) {
-        if (_currentQuestionIndex.value < questions.length) {
-          Question currentQuestion = questions.elementAt(
+        if (_currentQuestionIndex.value < widget.questions.length) {
+          Question currentQuestion = widget.questions.elementAt(
             _currentQuestionIndex.value,
           );
           return ValueListenableBuilder(
@@ -54,7 +69,7 @@ class QuestionSectionWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Row(
                         children: [
-                          ...List.generate(questions.length, (index) {
+                          ...List.generate(widget.questions.length, (index) {
                             return Expanded(
                               child: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 3),
@@ -110,18 +125,41 @@ class QuestionSectionWidget extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                questions
+                                widget.questions
                                     .elementAt(_currentQuestionIndex.value)
                                     .options
                                     .elementAt(index),
                               ),
                               Expanded(child: Container()),
-                              Icon(
-                                (_selected.value == index)
-                                    ? Icons.check_box
-                                    : Icons.check_box_outline_blank,
-                                size: 20,
-                                color: Colors.black.withAlpha(100),
+                              AnimatedSwitcher(
+                                transitionBuilder: (child, animation) =>
+                                    FadeTransition(
+                                      opacity:
+                                          (child.key == ValueKey("Checked"))
+                                          ? Tween<double>(
+                                              begin: 0.5,
+                                              end: 1.0,
+                                            ).animate(animation)
+                                          : Tween<double>(
+                                              begin: 1.0,
+                                              end: 0.5,
+                                            ).animate(animation),
+                                      child: child,
+                                    ),
+                                duration: Duration(milliseconds: 50),
+                                child: (_selected.value == index)
+                                    ? Icon(
+                                        Icons.check_box,
+                                        key: ValueKey("Checked"),
+                                        size: 20,
+                                        color: widget.colorTheme,
+                                      )
+                                    : Icon(
+                                        key: ValueKey("Unchecked"),
+                                        Icons.check_box_outline_blank,
+                                        size: 20,
+                                        color: Color(0x3C000000),
+                                      ),
                               ),
                             ],
                           ),
@@ -132,14 +170,14 @@ class QuestionSectionWidget extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        border: BoxBorder.all(color: colorTheme),
+                        border: BoxBorder.all(color: widget.colorTheme),
                       ),
                       margin: EdgeInsets.symmetric(vertical: 10),
                       padding: EdgeInsets.only(bottom: 6, top: 3),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: colorTheme,
+                          color: widget.colorTheme,
                         ),
                         width: double.infinity,
                         padding: EdgeInsets.all(10),
@@ -169,6 +207,7 @@ class QuestionSectionWidget extends StatelessWidget {
           );
         }
         return Container(
+          // Completed
           margin: EdgeInsets.symmetric(vertical: 10),
           padding: EdgeInsets.all(10),
           alignment: Alignment.center,
@@ -191,11 +230,11 @@ class QuestionSectionWidget extends StatelessWidget {
             child: Column(
               children: [
                 CircularProgressIndicator(
-                  value: score / questions.length,
-                  color: colorTheme,
+                  value: score / widget.questions.length,
+                  color: widget.colorTheme,
                 ),
                 Text(
-                  "Your Scored: ${score / questions.length * 100}%",
+                  "Your Scored: ${score / widget.questions.length * 100}%",
                   style: GoogleFonts.getFont("Montserrat", fontSize: 15),
                 ),
               ],
