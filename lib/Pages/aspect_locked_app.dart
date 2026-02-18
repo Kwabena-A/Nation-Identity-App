@@ -12,7 +12,6 @@ class AspectLockedApp extends StatelessWidget {
     return Center(
       child: FittedBox(
         child: Container(
-          margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
