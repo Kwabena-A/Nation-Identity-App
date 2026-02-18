@@ -11,6 +11,7 @@ class IndicatorTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return (currentQuestion.isCorrect != null)
         ? CardHolder(
+            margin: 5,
             child: Container(
               padding: EdgeInsets.all(5),
               child: Row(

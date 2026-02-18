@@ -72,8 +72,6 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
   void dispose() {
     scrollController.dispose();
     _scrollOffset.dispose();
-    _currentController.dispose();
-    _scrollOffset.dispose();
     _animationController.dispose();
 
     _currentController.removeListener(_updatePosition);
@@ -149,69 +147,71 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
 
         _animationController.reset();
         _animationController.forward();
-        print("$countBefore:$leftOffset | $countAfter:$rightOffset");
-
         return ValueListenableBuilder(
           valueListenable: _scrollOffset,
           builder: (context, value, child) {
-            return Transform.translate(
-              offset: Offset(0, _scrollOffset.value * -1),
-              child: Stack(
-                alignment: Alignment.topLeft,
-                children: [
-                  Container(
-                    height: 100,
-                    alignment: Alignment.center,
-                    child: ClipRect(
-                      clipBehavior: Clip.hardEdge,
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width,
-                        ),
-                        controller: scrollController,
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ...List.generate(allPages.length, (index) {
-                              return ScrollObjectWidget(
-                                pageInfo: allPages.elementAt(index),
-                                index: index,
-                              );
-                            }),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  AnimatedBuilder(
-                    animation: _boxColorAnimation,
-                    builder: (context, child) {
-                      return Positioned.fill(
-                        child: Center(
-                          child: Container(
-                            width: 95 - 10,
-                            height: 95 - 10,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFFFF),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: _boxColorAnimation.value,
-
-                                width: 5,
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                              ),
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                return Transform.translate(
+                  offset: Offset(0, _scrollOffset.value * -1),
+                  child: Stack(
+                    alignment: Alignment.topLeft,
+                    children: [
+                      Container(
+                        height: 100,
+                        alignment: Alignment.center,
+                        child: ClipRect(
+                          clipBehavior: Clip.hardEdge,
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: constraints.maxWidth,
+                            ),
+                            controller: scrollController,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ...List.generate(allPages.length, (index) {
+                                  return ScrollObjectWidget(
+                                    pageInfo: allPages.elementAt(index),
+                                    index: index,
+                                  );
+                                }),
+                              ],
                             ),
                           ),
                         ),
-                      );
-                    },
+                      ),
+
+                      AnimatedBuilder(
+                        animation: _boxColorAnimation,
+                        builder: (context, child) {
+                          return Positioned.fill(
+                            child: Center(
+                              child: Container(
+                                width: 95 - 10,
+                                height: 95 - 10,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFFFF),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: _boxColorAnimation.value,
+
+                                    width: 5,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
         );

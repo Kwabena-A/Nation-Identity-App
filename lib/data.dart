@@ -6,6 +6,8 @@ ValueNotifier<int> currentPage = ValueNotifier(0);
 
 late ScrollController activeScrollController;
 
+// Question counts adjusted (2–5 each). All colors unchanged.
+
 // 1. ABU DHABI
 PageInfo masdarCity = PageInfo(
   title: "Masdar City",
@@ -52,6 +54,15 @@ PageInfo masdarCity = PageInfo(
           ],
           correctChoice: 1,
         ),
+        Question(
+          question: "The city demonstrates a blend of:",
+          options: [
+            "Tradition and innovation",
+            "Industry and mining",
+            "Luxury and excess",
+          ],
+          correctChoice: 0,
+        ),
       ],
       colorTheme: Color(0xFFB4532A),
     ),
@@ -92,6 +103,21 @@ PageInfo burjKhalifa = PageInfo(
           ],
           correctChoice: 1,
         ),
+        Question(
+          question:
+              "The building demonstrates how what can influence engineering?",
+          options: ["Natural geometry", "Ancient warfare", "Shipping routes"],
+          correctChoice: 0,
+        ),
+        Question(
+          question: "The tower primarily represents:",
+          options: [
+            "Agricultural heritage",
+            "Urban ambition",
+            "Mountain resilience",
+          ],
+          correctChoice: 1,
+        ),
       ],
       colorTheme: Color(0xFF0F766E),
     ),
@@ -128,12 +154,13 @@ PageInfo jebelJais = PageInfo(
           correctChoice: 1,
         ),
         Question(
+          question: "Its terrain mainly contrasts with:",
+          options: ["Glass urban skylines", "Mangrove forests", "River deltas"],
+          correctChoice: 0,
+        ),
+        Question(
           question: "Culturally the mountain symbolizes:",
-          options: [
-            "Endurance and ambition",
-            "Maritime tradition",
-            "Industrial might",
-          ],
+          options: ["Endurance and ambition", "Luxury trade", "Naval strength"],
           correctChoice: 0,
         ),
       ],
@@ -156,16 +183,7 @@ PageInfo alZorahPavilion = PageInfo(
       subTitle: "Geometric Elegance",
       texts: [
         """The pavilion resembles a piece of white origami — sharp angles and minimalist surfaces.""",
-        """Its form provides a clean, contemporary visual that pairs well with coastal nature.""",
-      ],
-      colorTheme: Color(0xFF1F8A70),
-    ),
-    TextSectionWidget(
-      title: "Ecological Connection",
-      subTitle: "Respect for the Land",
-      texts: [
-        """The Pavilion serves as a gateway to a large mangrove forest and emphasizes coastal preservation.""",
-        """It shows how contemporary design can respect and highlight natural ecosystems.""",
+        """It serves as a gateway to a large mangrove forest.""",
       ],
       colorTheme: Color(0xFF1F8A70),
     ),
@@ -175,15 +193,14 @@ PageInfo alZorahPavilion = PageInfo(
           question: "The pavilion’s appearance most closely resembles:",
           options: [
             "A white origami form",
-            "A classical stone temple",
-            "A steel industrial shed",
+            "A medieval castle",
+            "A glass skyscraper",
           ],
           correctChoice: 0,
         ),
         Question(
-          question:
-              "Which ecosystem is closely associated with Al Zorah Pavilion?",
-          options: ["Mangrove forest", "Desert dunes", "High-altitude alpine"],
+          question: "Which ecosystem is associated with Al Zorah Pavilion?",
+          options: ["Mangrove forest", "Mountain plateau", "Oil field"],
           correctChoice: 0,
         ),
       ],
@@ -205,16 +222,7 @@ PageInfo alBithnahFort = PageInfo(
       subTitle: "A Natural Stronghold",
       texts: [
         """The fort stands in a green valley surrounded by the Hajar Mountains.""",
-        """Its sand-colored stone contrasts with the dark mountain backdrop.""",
-      ],
-      colorTheme: Color(0xFF8F6B2E),
-    ),
-    TextSectionWidget(
-      title: "Historical Resilience",
-      subTitle: "Symbol of Steadfastness",
-      texts: [
         """Historically it served as a defensive stronghold for the eastern region.""",
-        """It represents bravery and the national value of steadfastness (summoud).""",
       ],
       colorTheme: Color(0xFF8F6B2E),
     ),
@@ -223,19 +231,24 @@ PageInfo alBithnahFort = PageInfo(
         Question(
           question: "Al-Bithnah Fort is set in which landscape?",
           options: [
-            "Sandy coastal plain",
             "A valley surrounded by mountains",
-            "An urban plaza",
+            "A coastal harbor",
+            "An open desert plain",
           ],
-          correctChoice: 1,
+          correctChoice: 0,
         ),
         Question(
-          question: "Which value does the fort primarily symbolize?",
+          question: "What was its primary historical function?",
           options: [
-            "Steadfastness",
-            "Commercial wealth",
-            "Technological progress",
+            "Defensive protection",
+            "Commercial trading hub",
+            "Religious center",
           ],
+          correctChoice: 0,
+        ),
+        Question(
+          question: "The fort symbolizes which value?",
+          options: ["Steadfastness", "Urbanization", "Industrial growth"],
           correctChoice: 0,
         ),
       ],
@@ -255,39 +268,35 @@ PageInfo abandonedPlane = PageInfo(
       title: "The Metallic Relic",
       subTitle: "Industrial Aesthetics",
       texts: [
-        """This Soviet-era IL-76 cargo plane rests in the sand, its rusted skin and massive wings creating a cinematic scene.""",
-        """Its presence gives a 'hidden secret' vibe that fits off-the-beaten-path exploration.""",
-      ],
-      colorTheme: Color(0xFFA34724),
-    ),
-    TextSectionWidget(
-      title: "The Crossroads of Trade",
-      subTitle: "Legacy and Connection",
-      texts: [
-        """The plane references the UAE’s history as a global crossroads for trade and aviation.""",
-        """It reminds visitors of the nation’s openness and journey toward a modern economy.""",
+        """This Soviet-era IL-76 cargo plane rests in the sand with rusted skin and massive wings.""",
+        """It reflects the UAE’s historical role as a crossroads of trade and aviation.""",
       ],
       colorTheme: Color(0xFFA34724),
     ),
     QuestionSectionWidget(
       questions: [
         Question(
-          question: "What type of object is the landmark?",
-          options: [
-            "A historic fort",
-            "A rusted cargo plane",
-            "A modern sculpture",
-          ],
-          correctChoice: 1,
+          question: "What type of object is this landmark?",
+          options: ["Cargo plane", "Fortress tower", "Glass pavilion"],
+          correctChoice: 0,
         ),
         Question(
-          question: "The plane’s visual vibe is best described as:",
+          question: "Its atmosphere is best described as:",
           options: [
-            "Polished corporate",
             "Hidden and mysterious",
-            "Formal ceremonial",
+            "Corporate and polished",
+            "Ceremonial and formal",
           ],
-          correctChoice: 1,
+          correctChoice: 0,
+        ),
+        Question(
+          question: "The plane connects symbolically to:",
+          options: [
+            "Trade and aviation history",
+            "Mountain defense systems",
+            "Agricultural reform",
+          ],
+          correctChoice: 0,
         ),
       ],
       colorTheme: Color(0xFFA34724),
@@ -306,38 +315,37 @@ PageInfo houseOfWisdom = PageInfo(
       title: "Futurist Design",
       subTitle: "Glass and Light",
       texts: [
-        """The building features a floating roof and transparent glass walls that blur the line between inside and out.""",
-        """Outside, 'The Scroll' sculpture spirals upward, reinforcing the theme of knowledge.""",
-      ],
-      colorTheme: Color(0xFF0F766E),
-    ),
-    TextSectionWidget(
-      title: "The Intellectual Hub",
-      subTitle: "A Sanctuary for Knowledge",
-      texts: [
-        """It combines a library with maker-spaces and labs to promote innovation and learning.""",
-        """The building underscores Sharjah’s identity as a cultural and educational center.""",
+        """The building features a floating roof and transparent glass walls.""",
+        """It combines a library with maker-spaces and labs to promote innovation.""",
       ],
       colorTheme: Color(0xFF0F766E),
     ),
     QuestionSectionWidget(
       questions: [
         Question(
-          question:
-              "Which exterior feature is most striking about the House of Wisdom?",
+          question: "Which exterior feature defines the House of Wisdom?",
           options: [
-            "A floating roof and glass walls",
-            "Defense ramparts",
-            "Large domed minarets",
+            "Floating roof and glass walls",
+            "Stone battlements",
+            "Steel factory chimneys",
           ],
           correctChoice: 0,
         ),
         Question(
-          question: "What programmatic elements support innovation inside?",
+          question: "What facilities support innovation inside?",
           options: [
             "Library, maker-spaces, and labs",
             "Theme park rides",
-            "Luxury retail only",
+            "Luxury boutiques",
+          ],
+          correctChoice: 0,
+        ),
+        Question(
+          question: "The building reinforces Sharjah’s identity as a:",
+          options: [
+            "Cultural and educational center",
+            "Mining capital",
+            "Shipping port",
           ],
           correctChoice: 0,
         ),
@@ -348,7 +356,7 @@ PageInfo houseOfWisdom = PageInfo(
   colorTheme: Color(0xFF0F766E),
 );
 
-// Master list in requested order
+// Master list
 List<PageInfo> allPages = [
   masdarCity,
   burjKhalifa,

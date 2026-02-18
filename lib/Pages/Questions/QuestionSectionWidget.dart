@@ -39,6 +39,16 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
   }
 
   @override
+  void dispose() {
+    _currentQuestionIndex.dispose();
+    _selected.dispose();
+    for (var controller in progressControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -54,11 +64,7 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
                   if (animation.isCompleted) {
                     animation.addListener(() {
                       print("Updating");
-                      activeScrollController.animateTo(
-                        activeScrollController.position.extentTotal,
-                        duration: Duration(milliseconds: 1000),
-                        curve: Curves.linear,
-                      );
+                      activeScrollController.notifyListeners();
                     });
                   }
 
@@ -187,23 +193,17 @@ class _QuestionSectionWidgetState extends State<QuestionSectionWidget>
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: BoxBorder.all(
-                                      color: widget.colorTheme,
-                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: widget.colorTheme,
                                   ),
-                                  margin: EdgeInsets.symmetric(vertical: 10),
-                                  padding: EdgeInsets.only(bottom: 6, top: 3),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: widget.colorTheme,
-                                    ),
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      "Submit",
-                                      style: TextStyle(color: Colors.white),
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    "Submit",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 ),

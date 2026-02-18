@@ -20,6 +20,8 @@ class _ScrollObjectWidgetState extends State<ScrollObjectWidget>
   late AnimationController _animationController;
   late Animation _scaleAnimation;
 
+  late ScrollController pastController;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -66,7 +68,6 @@ class _ScrollObjectWidgetState extends State<ScrollObjectWidget>
           builder: (context, child) {
             return GestureDetector(
               onTap: () {
-                print("Tapped");
                 ScrollController pastController = activeScrollController;
                 pastController.animateTo(
                   0,

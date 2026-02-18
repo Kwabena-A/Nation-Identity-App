@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nation_identity_application/Pages/aspect_locked_app.dart';
 import 'package:nation_identity_application/WidgetTree.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Nation Identity App',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: WidgetTree(), backgroundColor: Colors.white),
+      home: Scaffold(body: AspectLockedApp(), backgroundColor: Colors.white),
     );
   }
 }

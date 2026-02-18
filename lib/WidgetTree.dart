@@ -19,16 +19,20 @@ class _WidgetTreeState extends State<WidgetTree> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        PageManagerWidget(),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            PageManagerWidget(),
 
-        Transform.translate(
-          offset: Offset(0, MediaQuery.of(context).size.height * 0.7),
-          child: PageScrollWidget(),
-        ),
-      ],
+            Transform.translate(
+              offset: Offset(0, constraints.maxHeight * 0.68),
+              child: PageScrollWidget(),
+            ),
+          ],
+        );
+      },
     );
   }
 }
