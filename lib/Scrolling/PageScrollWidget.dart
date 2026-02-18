@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:nation_identity_application/Scrolling/scroll_object_widget.dart';
 import 'package:nation_identity_application/data.dart';
@@ -25,6 +27,8 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
   late Listenable offsetListener;
 
   late Animation _boxColorAnimation;
+
+  late Timer positionUpdater;
 
   @override
   void initState() {
@@ -63,6 +67,10 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       offsetListener.addListener(moveScroller);
+
+      positionUpdater = Timer.periodic(Duration(seconds: 1), (timer) {
+        moveScroller();
+      });
     });
 
     super.initState();
@@ -77,6 +85,8 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
     _currentController.removeListener(_updatePosition);
     currentPage.removeListener(_onPageChange);
     offsetListener.removeListener(moveScroller);
+
+    positionUpdater.cancel();
 
     super.dispose();
   }

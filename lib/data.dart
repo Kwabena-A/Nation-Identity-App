@@ -12,7 +12,7 @@ late ScrollController activeScrollController;
 PageInfo masdarCity = PageInfo(
   title: "Masdar City",
   description: "The Sustainable City: A Glimpse into the Future",
-  image: "assets/Masdar-City.jpg",
+  image: "Masdar-City.jpg",
   textSections: [
     TextSectionWidget(
       title: "The Wind Tower",
@@ -74,7 +74,7 @@ PageInfo masdarCity = PageInfo(
 PageInfo burjKhalifa = PageInfo(
   title: "Burj Khalifa",
   description: "The Vertical Horizon: Touching the Clouds",
-  image: "assets/burj-khalifa.jpg",
+  image: "burj-khalifa.jpg",
   imageAlignment: Alignment(1, 0),
   textSections: [
     TextSectionWidget(
@@ -130,7 +130,7 @@ PageInfo jebelJais = PageInfo(
   title: "Jebel Jais",
   titleColor: Colors.white,
   description: "The Peak of Excellence: The UAE's Highest Point",
-  image: "assets/Jebal-Jais.png",
+  image: "Jebal-Jais.png",
   imageAlignment: Alignment(0.6, 0),
   textSections: [
     TextSectionWidget(
@@ -175,7 +175,7 @@ PageInfo alZorahPavilion = PageInfo(
   title: "Al Zorah Pavilion",
   titleColor: Colors.white,
   description: "The Origami Wave: Minimalism in Nature",
-  image: "assets/Al-Zorah-Pavilion.png",
+  image: "Al-Zorah-Pavilion.png",
   imageAlignment: Alignment(0.6, 0),
   textSections: [
     TextSectionWidget(
@@ -215,7 +215,7 @@ PageInfo alBithnahFort = PageInfo(
   title: "Al-Bithnah Fort",
   description: "The Golden Shield: Protector of the East",
   imageAlignment: Alignment(0.3, 0),
-  image: "assets/Al-Bithnah-Fort.png",
+  image: "Al-Bithnah-Fort.png",
   textSections: [
     TextSectionWidget(
       title: "The Valley Sentinel",
@@ -262,7 +262,7 @@ PageInfo alBithnahFort = PageInfo(
 PageInfo abandonedPlane = PageInfo(
   title: "The Abandoned IL-76",
   description: "The Desert Giant: A Mystery Frozen in Time",
-  image: "assets/abandoned-plane.png",
+  image: "abandoned-plane.png",
   textSections: [
     TextSectionWidget(
       title: "The Metallic Relic",
@@ -309,7 +309,7 @@ PageInfo abandonedPlane = PageInfo(
 PageInfo houseOfWisdom = PageInfo(
   title: "House of Wisdom",
   description: "The Floating Oasis of Knowledge",
-  image: "assets/house-of-wisdom.png",
+  image: "house-of-wisdom.png",
   textSections: [
     TextSectionWidget(
       title: "Futurist Design",
