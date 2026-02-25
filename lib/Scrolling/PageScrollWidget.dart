@@ -112,85 +112,88 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: currentPage,
+      valueListenable: _scrollOffset,
       builder: (context, value, child) {
-        // Set Center object by moving scroll controller
-        int countAfter = allPages.length - (currentPage.value + 1);
-        int countBefore = allPages.length - (countAfter + 1);
+        return Transform.translate(
+          offset: Offset(0, _scrollOffset.value * -1),
+          child: ValueListenableBuilder(
+            valueListenable: currentPage,
+            builder: (context, value, child) {
+              // Set Center object by moving scroll controller
+              int countAfter = allPages.length - (currentPage.value + 1);
+              int countBefore = allPages.length - (countAfter + 1);
 
-        leftOffset = 0;
-        for (int i = countBefore + 1; i <= countAfter; i++) {
-          double scaleFactor = -(i / 7.5) + 1;
-          leftOffset += 95 * scaleFactor;
-        }
+              leftOffset = 0;
+              for (int i = countBefore + 1; i <= countAfter; i++) {
+                double scaleFactor = -(i / 7.5) + 1;
+                leftOffset += 95 * scaleFactor;
+              }
 
-        rightOffset = 0;
-        for (int i = countAfter + 1; i <= countBefore; i++) {
-          double scaleFactor = -(i / 7.5) + 1;
-          rightOffset += 95 * scaleFactor;
-        }
-        _leftOffsetAnimation =
-            Tween(begin: _leftOffsetAnimation.value, end: leftOffset).animate(
-              CurvedAnimation(
-                parent: _animationController,
-                curve: Curves.easeIn,
-              ),
-            );
-        _rightOffsetAnimation =
-            Tween(begin: _rightOffsetAnimation.value, end: rightOffset).animate(
-              CurvedAnimation(
-                parent: _animationController,
-                curve: Curves.easeIn,
-              ),
-            );
+              rightOffset = 0;
+              for (int i = countAfter + 1; i <= countBefore; i++) {
+                double scaleFactor = -(i / 7.5) + 1;
+                rightOffset += 95 * scaleFactor;
+              }
+              _leftOffsetAnimation =
+                  Tween(
+                    begin: _leftOffsetAnimation.value,
+                    end: leftOffset,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: _animationController,
+                      curve: Curves.easeIn,
+                    ),
+                  );
+              _rightOffsetAnimation =
+                  Tween(
+                    begin: _rightOffsetAnimation.value,
+                    end: rightOffset,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: _animationController,
+                      curve: Curves.easeIn,
+                    ),
+                  );
 
-        _boxColorAnimation =
-            ColorTween(
-              begin: _boxColorAnimation.value,
-              end: allPages.elementAt(currentPage.value).colorTheme,
-            ).animate(
-              CurvedAnimation(
-                parent: _animationController,
-                curve: Curves.easeInOut,
-              ),
-            );
+              _boxColorAnimation =
+                  ColorTween(
+                    begin: _boxColorAnimation.value,
+                    end: allPages.elementAt(currentPage.value).colorTheme,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: _animationController,
+                      curve: Curves.easeInOut,
+                    ),
+                  );
 
-        _animationController.reset();
-        _animationController.forward();
-        return ValueListenableBuilder(
-          valueListenable: _scrollOffset,
-          builder: (context, value, child) {
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                return Transform.translate(
-                  offset: Offset(0, _scrollOffset.value * -1),
-                  child: Stack(
+              _animationController.reset();
+              _animationController.forward();
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
                     alignment: Alignment.topLeft,
                     children: [
                       Container(
                         height: 100,
                         alignment: Alignment.center,
-                        child: ClipRect(
-                          clipBehavior: Clip.hardEdge,
-                          child: SingleChildScrollView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: constraints.maxWidth,
-                            ),
-                            controller: scrollController,
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ...List.generate(allPages.length, (index) {
-                                  return ScrollObjectWidget(
-                                    pageInfo: allPages.elementAt(index),
-                                    index: index,
-                                  );
-                                }),
-                              ],
-                            ),
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: constraints.maxWidth,
+                          ),
+                          controller: scrollController,
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ...List.generate(allPages.length, (index) {
+                                return ScrollObjectWidget(
+                                  pageInfo: allPages.elementAt(index),
+                                  index: index,
+                                );
+                              }),
+                            ],
                           ),
                         ),
                       ),
@@ -219,11 +222,11 @@ class _PageScrollWidgetState extends State<PageScrollWidget>
                         },
                       ),
                     ],
-                  ),
-                );
-              },
-            );
-          },
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );

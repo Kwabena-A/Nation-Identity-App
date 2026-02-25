@@ -37,9 +37,12 @@ class _PageHolderWidgetState extends State<PageHolderWidget>
   @override
   void initState() {
     index = allPages.indexOf(widget.pageInfo);
-    if (index == currentPage.value) {
-      activeScrollController = _scrollController;
-    }
+    currentPage.addListener(() {
+      if (index == currentPage.value) {
+        activeScrollController = _scrollController;
+      }
+    });
+
     _movementAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 600),

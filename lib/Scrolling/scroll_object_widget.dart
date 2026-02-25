@@ -68,21 +68,20 @@ class _ScrollObjectWidgetState extends State<ScrollObjectWidget>
           builder: (context, child) {
             return GestureDetector(
               onTap: () {
-                ScrollController pastController = activeScrollController;
-                pastController.animateTo(
+                activeScrollController.animateTo(
                   0,
                   duration: Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
                 );
                 void listenerFunction() {
-                  if (pastController.offset == 0) {
+                  if (activeScrollController.offset == 0) {
                     currentPage.value = widget.index;
-                    pastController.removeListener(listenerFunction);
+                    activeScrollController.removeListener(listenerFunction);
                   }
                 }
 
-                pastController.addListener(listenerFunction);
-                pastController.notifyListeners();
+                activeScrollController.addListener(listenerFunction);
+                activeScrollController.notifyListeners();
               },
               child: Container(
                 width: _scaleAnimation.value,
